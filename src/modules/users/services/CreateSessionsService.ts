@@ -37,6 +37,8 @@ class CreateSessionsService {
       expiresIn: authConfig.jwt.expiresIn,
     });
 
+    console.log('Token Session Service', token);
+
     return { user, token };
   }
 }
