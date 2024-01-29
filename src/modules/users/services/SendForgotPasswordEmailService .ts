@@ -3,6 +3,7 @@ import AppError from '@shared/errors/AppError';
 import UsersRepository from '../typeorm/repositories/UsersRepository';
 import UserTokensRepository from '../typeorm/repositories/UserTokensRepository ';
 import EtherealMail from '@config/mail/EtherealMail';
+import path from 'path';
 
 interface IRequest {
   email: string;
@@ -14,16 +15,21 @@ class SendForgotPasswordEmailService {
     const userTokensRepository = getCustomRepository(UserTokensRepository);
 
     const user = await usersRepository.findByEmail(email);
+    //  console.log('user', user);
 
     if (!user) {
       throw new AppError('User does not exists');
     }
 
-    console.log('user', user);
-
     const { token } = await userTokensRepository.generate(user.id);
+    //    console.log('token', token);
 
-    console.log('token', token);
+    const forgotPasswordTemplate = path.resolve(
+      __dirname,
+      '..',
+      'views',
+      'forgot_password.hbs',
+    );
 
     await EtherealMail.sendMail({
       to: {
@@ -32,10 +38,10 @@ class SendForgotPasswordEmailService {
       },
       subject: '[API VENDAS] Recuperação de Senha',
       templateData: {
-        template: `Olá {{name}}: {{token}}`,
+        file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          token: token,
+          link: `http://localhost:3000/reset_password?token=${token}`,
         },
       },
     });
