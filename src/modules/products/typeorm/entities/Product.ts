@@ -1,4 +1,3 @@
-import OrderProducts from '@modules/orders/typeorm/entities/OrdersProducts';
 import {
   Column,
   CreateDateColumn,
@@ -6,6 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import OrderProducts from '../../../orders/typeorm/entities/OrdersProducts';
 
 @Entity('products')
 class Product {
