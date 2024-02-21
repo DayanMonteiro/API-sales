@@ -7,11 +7,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import Order from './Order';
 import Product from '../../../products/typeorm/entities/Product';
 
 @Entity('orders_products')
-class OrderProducts {
+class OrdersProducts {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -42,4 +43,4 @@ class OrderProducts {
   updated_at: Date;
 }
 
-export default OrderProducts;
+export default OrdersProducts;
